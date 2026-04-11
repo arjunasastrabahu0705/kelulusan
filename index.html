@@ -1,0 +1,343 @@
+<!doctype html>
+<html lang="id" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pengumuman Kelulusan SMAN 1 Warunggunung</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+  <style>
+html, body { height: 100%; margin: 0; }
+
+@keyframes confetti-fall {
+  0% { transform: translateY(-100%) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+}
+@keyframes float-up {
+  0% { transform: translateY(40px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(234, 179, 8, 0.3); }
+  50% { box-shadow: 0 0 40px rgba(234, 179, 8, 0.6); }
+}
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+@keyframes digit-flip {
+  0% { transform: rotateX(0); }
+  50% { transform: rotateX(-90deg); }
+  100% { transform: rotateX(0); }
+}
+.animate-float { animation: float-up 0.6s ease-out forwards; }
+.animate-glow { animation: pulse-glow 2s ease-in-out infinite; }
+.shimmer-text {
+  background: linear-gradient(90deg, #fbbf24, #fff, #fbbf24);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 3s linear infinite;
+}
+.confetti-piece {
+  position: fixed;
+  top: -10px;
+  z-index: 9999;
+  pointer-events: none;
+  animation: confetti-fall linear forwards;
+}
+.countdown-card {
+  background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.15);
+}
+.glass-card {
+  background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(255,255,255,0.85));
+  backdrop-filter: blur(20px);
+  box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+}
+.bg-main {
+  background: linear-gradient(135deg, #0c1445 0%, #1a237e 30%, #283593 60%, #0c1445 100%);
+}
+.digit-box {
+  background: linear-gradient(180deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.6) 100%);
+  border: 1px solid rgba(234,179,8,0.3);
+}
+.result-lulus {
+  background: linear-gradient(135deg, #065f46, #047857, #059669);
+}
+.result-tidak {
+  background: linear-gradient(135deg, #7f1d1d, #991b1b, #b91c1c);
+}
+#loading-overlay {
+  transition: opacity 0.5s ease-out, visibility 0.5s;
+}
+</style>
+  <style>body { box-sizing: border-box; }</style>
+ </head>
+ <body class="h-full">
+<!-- Loading Overlay -->
+<div id="loading-overlay" class="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-[#0c1445]">
+  <div class="relative">
+    <!-- Ring Spinner -->
+    <div class="w-16 h-16 border-4 border-blue-900/30 border-t-yellow-500 rounded-full animate-spin"></div>
+    <!-- Glow Effect -->
+    <div class="absolute inset-0 w-16 h-16 border-4 border-transparent border-t-yellow-400 rounded-full animate-pulse blur-sm"></div>
+  </div>
+  <p class="mt-4 text-yellow-500 font-bold tracking-widest animate-pulse text-sm uppercase">Memuat Data...</p>
+</div>
+  <div id="app" class="h-full overflow-auto bg-main pattern-overlay" style="font-family: 'Plus Jakarta Sans', sans-serif;">
+   <!-- COUNTDOWN SECTION -->
+   <div id="countdown-section" class="hidden min-h-full flex flex-col items-center justify-center px-4 py-8">
+    <div class="text-center max-w-2xl mx-auto w-full">
+     <!-- Logo/Emblem -->
+    <div class="mb-6 animate-float">
+		<div class="w-16 h-16 mx-auto rounded-full bg-gradient-to-br from-yellow-400 to-yellow-600 flex items-center justify-center shadow-lg" style="box-shadow: 0 0 30px rgba(234,179,8,0.4);">
+		 <img src="https://iili.io/finQgLv.png" alt="Logo" class="w-12 h-12 object-contain">
+		</div>
+	</div>
+     <p id="school-name-display" class="text-yellow-400 font-bold tracking-widest text-sm mb-2 uppercase" style="letter-spacing: 0.25em;">SMAN 1 WARUNGGUNUNG</p>
+     <h1 id="title-display" class="text-3xl sm:text-5xl font-black text-white mb-2" style="font-family: 'Playfair Display', serif;">Pengumuman Kelulusan</h1>
+     <p id="year-display" class="text-yellow-300/70 font-semibold text-lg mb-1">Tahun Ajaran 2025/2026</p>
+     <p class="text-blue-200/60 text-sm mb-10">Pengumuman akan dibuka pada <strong class="text-yellow-300">15 Mei 2026</strong></p><!-- Countdown Timer -->
+     <div class="grid grid-cols-4 gap-3 sm:gap-5 max-w-lg mx-auto mb-10">
+      <div class="text-center">
+       <div class="countdown-card digit-box rounded-xl p-3 sm:p-5 mb-2">
+        <span id="days" class="text-3xl sm:text-5xl font-black text-yellow-400 block" style="font-family: 'Playfair Display', serif;">000</span>
+       </div><span class="text-blue-200/70 text-xs sm:text-sm font-semibold uppercase tracking-wider">Hari</span>
+      </div>
+      <div class="text-center">
+       <div class="countdown-card digit-box rounded-xl p-3 sm:p-5 mb-2">
+        <span id="hours" class="text-3xl sm:text-5xl font-black text-yellow-400 block" style="font-family: 'Playfair Display', serif;">00</span>
+       </div><span class="text-blue-200/70 text-xs sm:text-sm font-semibold uppercase tracking-wider">Jam</span>
+      </div>
+      <div class="text-center">
+       <div class="countdown-card digit-box rounded-xl p-3 sm:p-5 mb-2">
+        <span id="minutes" class="text-3xl sm:text-5xl font-black text-yellow-400 block" style="font-family: 'Playfair Display', serif;">00</span>
+       </div><span class="text-blue-200/70 text-xs sm:text-sm font-semibold uppercase tracking-wider">Menit</span>
+      </div>
+      <div class="text-center">
+       <div class="countdown-card digit-box rounded-xl p-3 sm:p-5 mb-2">
+        <span id="seconds" class="text-3xl sm:text-5xl font-black text-yellow-400 block" style="font-family: 'Playfair Display', serif;">00</span>
+       </div><span class="text-blue-200/70 text-xs sm:text-sm font-semibold uppercase tracking-wider">Detik</span>
+      </div>
+     </div>
+     <p class="text-blue-200/40 text-xs">Harap bersabar, pengumuman akan segera tersedia.</p>
+    </div>
+   </div><!-- SEARCH SECTION (hidden until countdown ends) -->
+   <div id="search-section" class="hidden min-h-full flex flex-col items-center justify-start px-4 py-8">
+    <div class="w-full max-w-md mx-auto">
+     <!-- Header -->
+     <div class="text-center mb-8 pt-4">
+      <div class="w-16 h-16 mx-auto rounded-full bg-gradient-to-br from-yellow-400 to-yellow-600 flex items-center justify-center mb-4 shadow-lg">
+       <img src="https://iili.io/finQgLv.png" alt="Logo" class="w-12 h-12 object-contain">
+      </div>
+      <p id="school-name-display-2" class="text-yellow-400 font-bold tracking-widest text-xs uppercase mb-1">SMAN 1 WARUNGGUNUNG</p>
+      <h1 id="title-display-2" class="text-2xl sm:text-3xl font-black text-white mb-1" style="font-family: 'Playfair Display', serif;">Cek Kelulusan</h1>
+      <p id="year-display-2" class="text-yellow-300/60 text-sm">Tahun Ajaran 2025/2026</p>
+     </div><!-- Search Form -->
+     <div class="glass-card rounded-2xl p-6 sm:p-8">
+      <form id="search-form" onsubmit="return false;">
+       <div class="mb-5">
+        <label for="nisn" class="block text-sm font-semibold text-gray-700 mb-2">NISN (Nomor Induk Siswa Nasional)</label>
+        <div class="relative">
+         <i data-lucide="hash" class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400"></i> <input type="text" id="nisn" inputmode="numeric" maxlength="10" placeholder="Masukkan 10 digit NISN" class="w-full pl-11 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 outline-none transition-all text-gray-800 font-medium placeholder:text-gray-400">
+        </div>
+       </div>
+       <div class="mb-6">
+        <label for="tgl-lahir" class="block text-sm font-semibold text-gray-700 mb-2">Tanggal Lahir</label>
+        <div class="relative">
+         <i data-lucide="calendar" class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400"></i> <input type="text" id="tgl-lahir" inputmode="numeric" maxlength="10" placeholder="dd/mm/yyyy" class="w-full pl-11 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 outline-none transition-all text-gray-800 font-medium placeholder:text-gray-400">
+        </div>
+       </div><button type="submit" id="btn-cek" class="w-full py-3.5 bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 text-white font-bold rounded-xl shadow-lg hover:shadow-xl transition-all active:scale-[0.98] flex items-center justify-center gap-2"> <i data-lucide="search" class="w-5 h-5"></i> Cek Kelulusan </button>
+      </form>
+      <div id="error-msg" class="hidden mt-4 p-3 bg-red-50 border border-red-200 text-red-700 rounded-xl text-sm text-center font-medium"></div>
+     </div><!-- Result Card -->
+     <div id="result-card" class="hidden mt-6 animate-float">
+      <div id="status-card" class="rounded-2xl p-6 text-white text-center shadow-xl mb-4">
+        <p class="text-xs font-medium opacity-80 uppercase tracking-widest mb-1">Status Kelulusan</p>
+        <h2 id="res-nama" class="text-xl font-bold mb-2 uppercase"></h2>
+        <div id="res-status-text" class="text-4xl font-black mb-4 tracking-tighter"></div>
+        
+        <!-- Detail Info Box -->
+        <div class="bg-black/20 rounded-xl p-4 text-left space-y-2 text-sm backdrop-blur-sm">
+          <div class="flex justify-between border-b border-white/10 pb-1">
+            <span class="opacity-70">NISN</span>
+            <span id="res-nisn" class="font-semibold"></span>
+          </div>
+          <div class="flex justify-between border-b border-white/10 pb-1">
+            <span class="opacity-70">No. Peserta</span>
+            <span id="res-nopes" class="font-semibold"></span>
+          </div>
+          <div class="flex justify-between">
+            <span class="opacity-70">Kelas</span>
+            <span id="res-kelas" class="font-semibold"></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Download Button -->
+      <a id="res-link" href="#" target="_blank" class="flex items-center justify-center gap-3 w-full bg-white text-indigo-900 font-bold py-4 rounded-xl shadow-lg hover:bg-yellow-400 transition-all transform hover:-translate-y-1">
+        <i data-lucide="file-down" class="w-5 h-5"></i>
+        Unduh Surat Keterangan Lulus
+      </a>
+      
+      <button onclick="resetPencarian()" class="w-full mt-4 text-white/60 text-xs font-medium hover:text-white transition-colors">
+		← Cari NISN Lain
+	  </button>
+     </div>
+    </div>
+</div>
+    </div>
+   </div>
+  </div>
+  <script>
+  const API_URL = "https://script.google.com/macros/s/AKfycbzXQ2Kis8UsFlBmmuHRNa3-g0LIlz_-h-9YZ17zsaBDyfVNP2HPzFewjdjp8cMG2DFKBg/exec"; // <--- GANTI INI
+  let studentData = [];
+
+  async function initApp() {
+  try {
+    const response = await fetch(API_URL);
+    const data = await response.json();
+    
+    studentData = data.students;
+    
+    // Update Teks
+    document.getElementById('school-name-display').innerText = data.config.school_name;
+    document.getElementById('school-name-display-2').innerText = data.config.school_name;
+    document.getElementById('year-display').innerText = "Tahun Ajaran " + data.config.academic_year;
+    document.getElementById('year-display-2').innerText = "Tahun Ajaran " + data.config.academic_year;
+
+    const now = new Date().getTime();
+    const target = new Date(data.config.target_date).getTime();
+
+    if (now >= target) {
+      document.getElementById('search-section').classList.remove('hidden');
+    } else {
+      document.getElementById('countdown-section').classList.remove('hidden');
+      startCountdown(data.config.target_date);
+    }
+
+  } catch (error) {
+    console.error("Gagal memuat data:", error);
+    // Jika error, beri tahu user
+    document.querySelector('#loading-overlay p').innerText = "Koneksi Bermasalah!";
+  } finally {
+    // HAPUS LOADING SETELAH SELESAI (Berhasil atau Gagal)
+    const loader = document.getElementById('loading-overlay');
+    loader.style.transition = "opacity 0.5s ease";
+    loader.style.opacity = "0";
+    setTimeout(() => loader.remove(), 500);
+    }
+  }
+
+
+
+  function startCountdown(targetDate) {
+    const countDate = new Date(targetDate).getTime();
+
+    const timer = setInterval(() => {
+      const now = new Date().getTime();
+      const gap = countDate - now;
+
+      if (gap <= 0) {
+        clearInterval(timer);
+        document.getElementById('countdown-section').classList.add('hidden');
+        document.getElementById('search-section').classList.remove('hidden');
+        return;
+      }
+
+      const second = 1000, minute = second * 60, hour = minute * 60, day = hour * 24;
+      
+      document.getElementById('days').innerText = Math.floor(gap / day).toString().padStart(3, '0');
+      document.getElementById('hours').innerText = Math.floor((gap % day) / hour).toString().padStart(2, '0');
+      document.getElementById('minutes').innerText = Math.floor((gap % hour) / minute).toString().padStart(2, '0');
+      document.getElementById('seconds').innerText = Math.floor((gap % minute) / second).toString().padStart(2, '0');
+    }, 1000);
+  }
+
+  // Fungsi Pencarian (Triggered by Form)
+  document.getElementById('search-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const inputNisn = document.getElementById('nisn').value;
+    const inputTgl = document.getElementById('tgl-lahir').value;
+    const errorMsg = document.getElementById('error-msg');
+    const resultCard = document.getElementById('result-card');
+    const statusCard = document.getElementById('status-card');
+
+    // Reset Tampilan
+    errorMsg.classList.add('hidden');
+    resultCard.classList.add('hidden');
+
+    // Cari data berdasarkan NISN dan Tanggal Lahir
+    const found = studentData.find(s => 
+        s.nisn.toString() === inputNisn && 
+        s.tgl_lahir.toString() === inputTgl
+    );
+
+    if (found) {
+        // Isi konten
+        document.getElementById('res-nama').innerText = found.nama;
+        document.getElementById('res-nisn').innerText = found.nisn;
+        document.getElementById('res-nopes').innerText = found.no_peserta;
+        document.getElementById('res-kelas').innerText = found.kelas;
+        document.getElementById('res-status-text').innerText = found.status;
+        document.getElementById('res-link').href = found.link_skl;
+
+        // Styling warna kartu (Lulus vs Tidak)
+        if (found.status.toUpperCase() === "LULUS") {
+            statusCard.className = "result-lulus rounded-2xl p-6 text-white text-center shadow-xl mb-4 animate-glow";
+			// --- PANGGIL FUNGSI CONFETTI DI SINI ---
+            launchConfetti();
+            // ---------------------------------------
+        } else {
+            statusCard.className = "result-tidak rounded-2xl p-6 text-white text-center shadow-xl mb-4";
+        }
+
+        resultCard.classList.remove('hidden');
+        lucide.createIcons(); // Supaya icon lucide muncul di kartu hasil
+    } else {
+        errorMsg.innerText = "Data tidak ditemukan. Pastikan NISN dan Tanggal Lahir (dd/mm/yyyy) sudah benar.";
+        errorMsg.classList.remove('hidden');
+    }
+  });
+	// Pastikan fungsi launchConfetti Anda diletakkan di luar event listener
+	function launchConfetti() {
+	const colors = ["#fbbf24", "#f59e0b", "#3b82f6", "#8b5cf6", "#ec4899", "#10b981", "#ef4444", "#ffffff"];
+	for (let i = 0; i < 150; i++) { // Saya kurangi ke 100-150 agar tidak terlalu berat di HP, 800 bisa bikin lag
+    const el = document.createElement("div");
+    el.className = "confetti-piece";
+    el.style.left = Math.random() * 100 + "%";
+    el.style.width = (Math.random() * 10 + 6) + "px";
+    el.style.height = (Math.random() * 10 + 6) + "px";
+    el.style.background = colors[Math.floor(Math.random() * colors.length)];
+    el.style.borderRadius = Math.random() > 0.5 ? "50%" : "2px";
+    el.style.animationDuration = (Math.random() * 2 + 2) + "s";
+    el.style.animationDelay = (Math.random() * 1.5) + "s";
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), 5000);
+	}
+	}
+
+	function resetPencarian() {
+	// Sembunyikan kartu hasil
+	document.getElementById('result-card').classList.add('hidden');
+  
+	// Kosongkan input form
+	document.getElementById('search-form').reset();
+  
+	// Fokuskan kembali ke input NISN
+	document.getElementById('nisn').focus();
+  
+	// Sembunyikan pesan error jika ada
+	document.getElementById('error-msg').classList.add('hidden');
+	}
+
+
+  initApp();
+  lucide.createIcons();
+</script>
+  </body>
+</html>
